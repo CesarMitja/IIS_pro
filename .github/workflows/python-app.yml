@@ -1,0 +1,38 @@
+name: Python app
+
+on:
+  schedule:
+    - cron: '0 * * * *'  
+  push:
+    branches:
+      - main  
+
+jobs:
+    scrape:
+        runs-on: ubuntu-latest
+      
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+      
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: '3.9'
+      
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install selenium
+                # More dependencies if needed
+      
+            - name: Run scraper
+              run: python src/data/fetch.py
+            
+            - name: Add data with GIT
+              run: |
+                git add .
+                git commit -m "Update data" -a || echo "No changes to commit"
+                git push
+            
+           
