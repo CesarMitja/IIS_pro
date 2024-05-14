@@ -26,8 +26,6 @@ jobs:
                 pip install requests
       
             - name: Run scraper
-              env:
-                RAPIDAPI_KEY: ${{ secrets.RAPID_KEY }}
               run: python src/data/fetch.py
   
             - name: Add data with GIT
