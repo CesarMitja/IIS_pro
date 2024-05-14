@@ -15,11 +15,6 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v2
       
-            - name: Setup git
-              run: |
-                git config --local user.email "action@github.com"
-                git config --local user.name "GitHub Action"
-      
             - name: Set up Python
               uses: actions/setup-python@v2
               with:
@@ -31,10 +26,14 @@ jobs:
                 pip install requests
       
             - name: Run scraper
+              env:
+                RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
               run: python src/data/fetch.py
-      
+  
             - name: Add data with GIT
               run: |
+                git config --local user.email "action@github.com"
+                git config --local user.name "GitHub Action"
                 git add .
                 git commit -m "Update data" -a || echo "No changes to commit"
                 git push

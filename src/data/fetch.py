@@ -2,7 +2,7 @@ import requests
 import csv
 from datetime import datetime, timedelta
 import os 
-
+RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY')
 # Function to convert timestamp to datetime
 def timestamp_to_date(timestamp):
     return datetime.fromtimestamp(int(timestamp) / 1000)
@@ -15,7 +15,7 @@ print("Yesterday's date:", yesterday.strftime('%Y-%m-%d'))
 url = "https://zillow56.p.rapidapi.com/search"
 querystring = {"location":"houston, tx"}
 headers = {
-    "X-RapidAPI-Key": "37525841acmshd3f8a8fdd884aabp1226a9jsnfc8f85254ca0",
+    "X-RapidAPI-Key": RAPIDAPI_KEY,
     "X-RapidAPI-Host": "zillow56.p.rapidapi.com"
 }
 
