@@ -2,7 +2,7 @@ name: Python app
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
+    - cron: '0 * * * *'  
   push:
     branches:
       - main  
@@ -41,16 +41,8 @@ jobs:
             
             - name: Install ChromeDriver
               run: |
-                CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+")
-                echo "Detected Chrome version: $CHROME_VERSION"
-                DRIVER_URL="https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION"
-                DRIVER_VERSION=$(wget -qO- "$DRIVER_URL")
-                if [[ -z "$DRIVER_VERSION" ]]; then
-                  echo "No driver version found for Chrome $CHROME_VERSION, falling back to compatible version"
-                  DRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-                fi
-                echo "Detected Driver version: $DRIVER_VERSION"
-                wget -q "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip" || { echo "Failed to download ChromeDriver."; exit 1; }
+                echo "Installing a known stable version of ChromeDriver"
+                wget -q "https://chromedriver.storage.googleapis.com/124.0.6376/chromedriver_linux64.zip" || { echo "Failed to download ChromeDriver."; exit 1; }
                 unzip chromedriver_linux64.zip -d /usr/local/bin/ || { echo "Failed to unzip ChromeDriver."; exit 1; }
                 chmod +x /usr/local/bin/chromedriver
                 echo "ChromeDriver installed successfully."
