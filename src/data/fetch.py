@@ -1,10 +1,11 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium_stealth import stealth
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 import re
 import csv
@@ -12,13 +13,13 @@ import os
 
 # Nastavitve za Selenium WebDriver
 options = Options()
+options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-gpu")
+options.add_argument("--disable-features=VizDisplayCompositor")
 options.add_argument("--window-size=1920,1200")
-
-# Za debug: onemogočite headless način
-options.headless = False
+options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
 
 # Service z uporabo webdriver-manager
 service = Service(ChromeDriverManager().install())
@@ -26,19 +27,36 @@ service = Service(ChromeDriverManager().install())
 # Inicializacija Chrome Driverja
 driver = webdriver.Chrome(service=service, options=options)
 
+stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+        )
+
 def scrape_nepremicnine():
     # URL ciljne strani
-    url = 'https://www.nepremicnine.net/24ur/oglasi-prodaja/slovenija/'
+    url = 'https://www.nepremicnine.net/24ur/oglasi-prodaja/slovenija/stanovanje/'
     driver.get(url)
     
     print("URL Loaded: ", url)
     
     # Čakajte, da se stran naloži
-    time.sleep(10)
-
-    # Pridobivanje vseh oglasov na strani
-    properties = driver.find_elements(By.CSS_SELECTOR, '.property-box')
+    time.sleep(15)
     
+    # Shranite screenshot za vizualno preverjanje
+    driver.save_screenshot("diagnostic_snapshot.png")
+    print("Screenshot saved as diagnostic_snapshot.png")
+
+    try:
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".property-box")))
+        properties = driver.find_elements(By.CSS_SELECTOR, '.property-box')
+    except Exception as e:
+        print(f"Failed to load properties with error: {e}")
+        properties = []
+
     print("Number of properties found: ", len(properties))
 
     all_data = []
@@ -53,7 +71,7 @@ def scrape_nepremicnine():
         }
 
         try:
-            title_element = prop.find_element(By.CSS_SELECTOR, 'h2.p-0.m-0')
+            title_element = prop.find_element(By.CSS_SELECTOR, 'a.url-title-d > h2')
             data['mesto'] = title_element.text.strip()
             print("Mesto: ", data['mesto'])
 
