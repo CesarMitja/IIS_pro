@@ -42,9 +42,9 @@ print(f"Found {len(new_listings)} new listings from the last day.")
 
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) 
 filename = os.path.join(project_root, 'data', 'raw', 'listings.csv')
-
+file_exists = os.path.isfile(filename)
 # Open the file in write mode
-with open(filename, mode='w', newline='', encoding='utf-8') as file:
+with open(filename, mode='a', newline='', encoding='utf-8') as file:
     # Define the field names for the CSV
     fieldnames = ['Address', 'City', 'State', 'Zipcode', 'Price', 'Bedrooms', 'Bathrooms', 'Living Area', 'Lot Area', 'Type', 'Image', 'Date Listed']
     
@@ -52,7 +52,8 @@ with open(filename, mode='w', newline='', encoding='utf-8') as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames)
     
     # Write the header
-    writer.writeheader()
+    if not file_exists:
+        writer.writeheader()
     
     # Write data for each new listing
     for listing in new_listings:
