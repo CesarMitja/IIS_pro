@@ -49,7 +49,7 @@ def scrape_nepremicnine():
     print("URL Loaded: ", url)
     
     # Wait for the page to load and take a screenshot for review
-    time.sleep(15)
+    time.sleep(25)
     driver.save_screenshot("diagnostic_snapshot.png")
     print("Screenshot saved as diagnostic_snapshot.png")
 
