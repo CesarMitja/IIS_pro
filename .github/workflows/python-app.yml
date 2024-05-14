@@ -28,31 +28,7 @@ jobs:
             - name: Install dependencies
               run: |
                 python -m pip install --upgrade pip
-                pip install selenium webdriver-manager selenium_stealth twocaptcha
-      
-            - name: Install Chrome
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y wget software-properties-common apt-transport-https
-                wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-                sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-                sudo apt-get update
-                sudo apt-get install -y google-chrome-stable
-      
-            - name: Install ChromeDriver
-              run: |
-                CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-                echo "Detected Chrome version: $CHROME_VERSION"
-                DRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" || echo "")
-                if [[ -z "$DRIVER_VERSION" ]]; then
-                  echo "No ChromeDriver version found for Chrome $CHROME_VERSION, using default version 89.0.4389.23"
-                  DRIVER_VERSION="89.0.4389.23"
-                fi
-                echo "Detected Driver version: $DRIVER_VERSION"
-                wget "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip" || { echo "Failed to download ChromeDriver."; exit 1; }
-                unzip chromedriver_linux64.zip -d /usr/local/bin/ || { echo "Failed to unzip ChromeDriver."; exit 1; }
-                chmod +x /usr/local/bin/chromedriver
-                echo "ChromeDriver installed successfully."
+                pip install requests
       
             - name: Run scraper
               run: python src/data/fetch.py
