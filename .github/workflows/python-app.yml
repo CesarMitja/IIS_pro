@@ -41,11 +41,19 @@ jobs:
             
             - name: Install ChromeDriver
               run: |
-                echo "Installing a known stable version of ChromeDriver"
-                wget -q "https://chromedriver.storage.googleapis.com/124.0.6376/chromedriver_linux64.zip" || { echo "Failed to download ChromeDriver."; exit 1; }
-                unzip chromedriver_linux64.zip -d /usr/local/bin/ || { echo "Failed to unzip ChromeDriver."; exit 1; }
-                chmod +x /usr/local/bin/chromedriver
-                echo "ChromeDriver installed successfully."
+                  CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+                  echo "Detected Chrome version: $CHROME_VERSION"
+                  DRIVER_VERSION_URL="https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION"
+                  DRIVER_VERSION=$(wget -qO- "$DRIVER_VERSION_URL")
+                  if [[ -z "$DRIVER_VERSION" ]]; then
+                    echo "No ChromeDriver version found for Chrome $CHROME_VERSION, using default version 89.0.4389.23"
+                    DRIVER_VERSION="89.0.4389.23"
+                  fi
+                  echo "Detected Driver version: $DRIVER_VERSION"
+                  wget "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip"
+                  unzip chromedriver_linux64.zip -d /usr/local/bin/
+                  chmod +x /usr/local/bin/chromedriver
+                  echo "ChromeDriver installation completed successfully."
                 
             - name: Run scraper
               run: python src/data/fetch.py
