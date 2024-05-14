@@ -2,7 +2,7 @@ name: Python app
 
 on:
   schedule:
-    - cron: '0 * * * *'  
+    - cron: '0 * * * *'  # Runs every hour
   push:
     branches:
       - main  
@@ -29,6 +29,7 @@ jobs:
               run: |
                 python -m pip install --upgrade pip
                 pip install selenium webdriver-manager selenium_stealth
+
             - name: Install Chrome
               run: |
                 sudo apt-get update
@@ -45,8 +46,8 @@ jobs:
                 DRIVER_URL="https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION"
                 DRIVER_VERSION=$(wget -qO- "$DRIVER_URL")
                 if [[ -z "$DRIVER_VERSION" ]]; then
-                  echo "No driver version found for Chrome $CHROME_VERSION"
-                  exit 1
+                  echo "No driver version found for Chrome $CHROME_VERSION, falling back to compatible version"
+                  DRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
                 fi
                 echo "Detected Driver version: $DRIVER_VERSION"
                 wget -q "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip" || { echo "Failed to download ChromeDriver."; exit 1; }
@@ -62,5 +63,3 @@ jobs:
                 git add .
                 git commit -m "Update data" -a || echo "No changes to commit"
                 git push
-            
-           
