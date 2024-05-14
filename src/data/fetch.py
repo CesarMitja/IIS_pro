@@ -1,30 +1,49 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import re
 import csv
 import os
 
-# Nastavitev Selenium WebDriver
-chromedriver_path = Service(executable_path='src/data/chromedriver.exe')
+# Nastavitve za Selenium WebDriver
 options = Options()
-driver = webdriver.Chrome(service=chromedriver_path, options=options)
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920,1200")
+
+# Za debug: onemogočite headless način
+options.headless = False
+
+# Service z uporabo webdriver-manager
+service = Service(ChromeDriverManager().install())
+
+# Inicializacija Chrome Driverja
+driver = webdriver.Chrome(service=service, options=options)
 
 def scrape_nepremicnine():
     # URL ciljne strani
     url = 'https://www.nepremicnine.net/24ur/oglasi-prodaja/slovenija/'
     driver.get(url)
-    time.sleep(5)  # Pauza, da se stran popolnoma naloži
+    
+    print("URL Loaded: ", url)
+    
+    # Čakajte, da se stran naloži
+    time.sleep(10)
 
     # Pridobivanje vseh oglasov na strani
     properties = driver.find_elements(By.CSS_SELECTOR, '.property-box')
+    
+    print("Number of properties found: ", len(properties))
 
     all_data = []
 
     for prop in properties:
-        # Inicializacija podatkov za vsak oglas
         data = {
             'cena': '',
             'velikost': '',
@@ -34,41 +53,42 @@ def scrape_nepremicnine():
         }
 
         try:
-            # Zajem naslova oglasa
             title_element = prop.find_element(By.CSS_SELECTOR, 'h2.p-0.m-0')
             data['mesto'] = title_element.text.strip()
+            print("Mesto: ", data['mesto'])
 
-            # Zajem podrobnosti oglasa
             details = prop.find_element(By.CSS_SELECTOR, 'p[itemprop="description"]')
             details_text = details.text.strip()
+            print("Details: ", details_text)
 
-            # Zajem cenovnih podatkov
             price_element = prop.find_element(By.CSS_SELECTOR, 'h6')
             data['cena'] = price_element.text.strip().replace(' €', '').replace('.', '').replace(',', '.')
+            print("Cena: ", data['cena'])
 
-            # Pridobivanje velikosti, leta izgradnje in števila sob iz opisa
             size_match = re.search(r'(\d+,\d+|\d+) m2', details_text)
             if size_match:
                 data['velikost'] = size_match.group(0).replace(' m2', '').replace(',', '.')
+            print("Velikost: ", data['velikost'])
 
             year_match = re.search(r'zgrajeno l. (\d{4})', details_text)
             if year_match:
                 data['leto_izgradnje'] = year_match.group(1)
+            print("Leto izgradnje: ", data['leto_izgradnje'])
 
             rooms_match = re.search(r'(\d+)-sobno', details_text)
             if rooms_match:
                 data['st_sob'] = rooms_match.group(1)
+            print("Število sob: ", data['st_sob'])
 
         except Exception as e:
             print(f"An error occurred while parsing property: {e}")
 
-        # Dodajanje podatkov o oglasu v seznam vseh podatkov
         all_data.append(data)
 
     return all_data
 
 # Shranjevanje podatkov v CSV datoteko
-def save_to_csv(data, filename='datanepremicnine_data.csv'):
+def save_to_csv(data, filename='nepremicnine_data.csv'):
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) 
     filename = os.path.join(project_root, 'data', 'raw', 'current_data.csv')
     file_exists = os.path.isfile(filename)
@@ -82,6 +102,7 @@ def save_to_csv(data, filename='datanepremicnine_data.csv'):
 
         for item in data:
             writer.writerow(item)
+            print(f"Saved: {item}")
 
 # Pridobivanje podatkov in shranjevanje
 data = scrape_nepremicnine()
