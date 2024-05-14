@@ -2,7 +2,7 @@ import requests
 import csv
 from datetime import datetime, timedelta
 import os 
-RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY')
+RAPIDAPI_KEY = os.getenv('RAPID_KEY')
 # Function to convert timestamp to datetime
 def timestamp_to_date(timestamp):
     return datetime.fromtimestamp(int(timestamp) / 1000)

@@ -27,7 +27,7 @@ jobs:
       
             - name: Run scraper
               env:
-                RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+                RAPIDAPI_KEY: ${{ secrets.RAPID_KEY }}
               run: python src/data/fetch.py
   
             - name: Add data with GIT
