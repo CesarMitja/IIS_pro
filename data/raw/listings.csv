@@ -38,3 +38,44 @@ Address,City,State,Zipcode,Price,Bedrooms,Bathrooms,Living Area,Lot Area,Type,Im
 9603 Knights Station Dr,Houston,TX,77045,400000.0,4.0,4.0,2128.0,2583.108,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/d0a9b23bb1621f4526edbcd3281e22f4-p_e.jpg,Today
 10606 Cutting Horse Ln,Houston,TX,77064,430000.0,3.0,3.0,2649.0,8163.144,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/38e838237f568c779c8ee9403dee7f9d-p_e.jpg,Today
 11718 Fawnview Dr,Houston,TX,77070,65000.0,,0.0,,9600.624,LOT,https://photos.zillowstatic.com/fp/3f48571577ed085f30fcdeb48519232c-p_e.jpg,Today
+6307 Sandra St,Houston,TX,77028,399000.0,3.0,2.0,2298.0,3470.0,MULTI_FAMILY,https://photos.zillowstatic.com/fp/b7cf7b53034589253833f87c3c91f367-p_e.jpg,Today
+14550 Myers Dr,Houston,TX,77090,380000.0,4.0,3.0,2927.0,7013.16,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/0b6a5ebb472bc5b6ec81a12e9534de13-p_e.jpg,Today
+1778 Lakeside Enclave Dr,Houston,TX,77077,528000.0,4.0,4.0,3062.0,9023.0,SINGLE_FAMILY,"https://maps.googleapis.com/maps/api/staticmap?mobile=false&sensor=true&maptype=satellite&size=575x242&zoom=17&center=29.748279571533203,-95.6213607788086&key=AIzaSyBJsNQO5ZeG-XAbqqWLKwG08fWITSxg33w&signature=LhYNeVK_4SDxOY-DqWtOpIW3TAA=",Today
+9531 Everglade St #A-B,Houston,TX,77028,409000.0,3.0,3.0,2360.0,7020.0,MULTI_FAMILY,https://photos.zillowstatic.com/fp/435dac8ed47d6b4c9bfc1e621a6ec3c7-p_e.jpg,Today
+8815 Shadow Crest St,Houston,TX,77074,235000.0,3.0,2.0,1624.0,8102.16,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/b11107489c817481503028245802ea9b-p_e.jpg,Today
+7611 Belgard St,Houston,TX,77033,149999.0,3.0,1.0,1213.0,8158.788,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/7d8c1f6d7c2ffdfb2357c1e13449d966-p_e.jpg,Today
+6811 Eagle Pass St,Houston,TX,77020,279000.0,4.0,2.0,1966.0,5000.688,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/03b1bdcf41efcb9199253660a885e7c9-p_e.jpg,2024-05-15 07:00:00
+754 E 16th St,Houston,TX,77008,799000.0,2.0,1.0,1129.0,5000.688,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/79b60ca6b78145a5d449f0403206ee49-p_e.jpg,2024-05-15 07:00:00
+1827 Clover Spring Dr,Kingwood,TX,77339,369250.0,4.0,3.0,2210.0,10837.728,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/3ca8449907dedb4297dcdeea97e5fc85-p_e.jpg,Today
+909 Oak St #C,Houston,TX,77018,399000.0,3.0,3.0,1859.0,2263.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/5d69ba0ba3ae99f4f6da6eccc32bcec0-p_e.jpg,Today
+15734 Lakedale Dr,Houston,TX,77095,359000.0,3.0,2.0,1871.0,0.2613,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/db400e9aa595fa31ed7063377a48f7a0-p_e.jpg,Today
+18018 Bambriar Dr,Houston,TX,77090,310000.0,5.0,3.0,2678.0,8999.496,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/495063a1a615aa32367109db1ef03a11-p_e.jpg,Today
+13807 Clintway Dr,Houston,TX,77014,215000.0,4.0,3.0,2272.0,7034.94,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/15346ca9e9a8204d6d30cf141ef2ab2e-p_e.jpg,Today
+8517 Wilcrest Dr,Houston,TX,77099,156500.0,2.0,2.0,1428.0,1728.0,TOWNHOUSE,https://photos.zillowstatic.com/fp/3972e03cbff8334532ab018504ed6108-p_e.jpg,2024-05-15 07:00:00
+13051 Meadowline Dr,Houston,TX,77082,309999.0,3.0,3.0,2632.0,5675.868,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/d97912e5a0567229560220361c80457a-p_e.jpg,Today
+708 Sienna Palm Ln,Houston,TX,77008,489700.0,3.0,4.0,1901.0,1493.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/044aed5928211c5997d218a3493a5fdf-p_e.jpg,Today
+608 Middle St UNIT B,Houston,TX,77003,3200.0,3.0,4.0,2041.0,1412.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/74ef0d65413ac74e598932d6f3d3abb1-p_e.jpg,Today
+5511 Enid St,Houston,TX,77009,430000.0,6.0,3.0,896.0,10423.908,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/76e9a04df0c431dd4960ec244557c369-p_e.jpg,2024-05-15 07:00:00
+1518 W 23rd St,Houston,TX,77008,575000.0,3.0,4.0,2563.0,1850.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/46510ed0d4f4954506f71d048e750d14-p_e.jpg,2024-05-15 07:00:00
+1103 Imperial Lake Dr,Houston,TX,77073,255000.0,4.0,3.0,2222.0,5501.628,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/b9cf82a042fe191e3cbf671cbf0966d8-p_e.jpg,Today
+5922 Arboles Dr,Houston,TX,77035,315000.0,3.0,2.0,2012.0,8398.368,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/76f1620539ced1142e8772e2235c99f6-p_e.jpg,Today
+7405 Sterlingshire St,Houston,TX,77016,194900.0,3.0,1.0,986.0,7200.468,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/d2fe28be2c69ebdf759bd49afecab579-p_e.jpg,Today
+1214 Crockett St,Houston,TX,77007,515000.0,2.0,1.0,1108.0,5000.688,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/414d69e7eeef8e457c749a7642a97a3d-p_e.jpg,Today
+14706 Branchwest Dr,Houston,TX,77082,319500.0,4.0,3.0,2354.0,4447.476,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/6efcaa7f7be0acd514671cfe2c9f0c28-p_e.jpg,Today
+1300 Augusta Dr APT 6,Houston,TX,77057,249900.0,2.0,3.0,1385.0,2.4106,TOWNHOUSE,https://photos.zillowstatic.com/fp/2f7aa3882b737e1159e4000832f42fbd-p_e.jpg,Today
+12239 Rocky Knoll Dr,Houston,TX,77077,420000.0,4.0,3.0,2549.0,7853.868,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/e218ea70cdfceb5de7d7b3b3602d6bb8-p_e.jpg,Today
+205 Norwood St,Houston,TX,77011,255000.0,2.0,1.0,920.0,6250.86,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/dfd9c6cd39b6eb0f59b761b86f737761-p_e.jpg,Today
+3533 Alderfer A B St,Houston,TX,77047,498000.0,3.0,2.0,2284.0,10370.0,MULTI_FAMILY,https://photos.zillowstatic.com/fp/6866fda1f8e1dd5c48003435e980251a-p_e.jpg,Today
+6214 Redwood Bridge Trl,Kingwood,TX,77345,595000.0,4.0,4.0,3734.0,0.2652,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/ebd22005f4d99b65d3bcbf4a487b67c0-p_e.jpg,Today
+7714 Hornwood Dr,Houston,TX,77036,299000.0,3.0,2.0,,,SINGLE_FAMILY,"https://maps.googleapis.com/maps/api/staticmap?mobile=false&sensor=true&maptype=satellite&size=575x242&zoom=17&center=29.7106876373291,-95.52256774902344&key=AIzaSyBJsNQO5ZeG-XAbqqWLKwG08fWITSxg33w&signature=AojCVPb1YpBrUMjdCSgRyuufnIg=",Today
+3533 Alderfer St,Houston,TX,77047,1498000.0,3.0,2.0,6852.0,10370.0,MULTI_FAMILY,https://photos.zillowstatic.com/fp/376e7f165d7a06a3c0243e6454cf0e31-p_e.jpg,Today
+4035 Owl Echo Ct,Houston,TX,77082,325000.0,4.0,3.0,2629.0,8141.364,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/f80e6ecd09baf37ed99ddd6635d885cb-p_e.jpg,Today
+10706 Skillings Ridge Dr,Houston,TX,77075,346500.0,4.0,3.0,2576.0,7448.76,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/0fddc57a09453af4527dacc3239369b9-p_e.jpg,Today
+16135 Green Manor Dr,Humble,TX,77396,270000.0,4.0,2.0,1400.0,10271.448,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/b841c6a2d17146d9802dddc9d18c2329-p_e.jpg,Today
+3601 Fuqua St,Houston,TX,77047,4200000.0,3.0,2.0,19308.0,0.7465105601469237,MULTI_FAMILY,https://photos.zillowstatic.com/fp/894596e6112c8788771bcf46ea2dccab-p_e.jpg,Today
+5747 Longmont Ln,Houston,TX,77057,825000.0,4.0,4.0,3326.0,3131.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/01d27db9004acf9c65086e14b5f94b24-p_e.jpg,2024-05-14 07:00:00
+4155 Amir St,Houston,TX,77072,235000.0,3.0,2.0,1526.0,4456.188,SINGLE_FAMILY,"https://maps.googleapis.com/maps/api/staticmap?mobile=false&sensor=true&maptype=satellite&size=575x242&zoom=17&center=29.71427345275879,-95.58531951904297&key=AIzaSyBJsNQO5ZeG-XAbqqWLKwG08fWITSxg33w&signature=I62g4bFfMgT3O4YdgIB2ASCF7wA=",Today
+15022 Brookpoint Dr,Houston,TX,77062,360000.0,4.0,3.0,2294.0,9016.92,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/7406c897182ed7a03265331070e20ff4-p_e.jpg,Today
+7514 Tremendo Dr,Houston,TX,77083,252000.0,3.0,2.0,1382.0,6307.488,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/1275118192ccd5c1e3e42920739e00c9-p_e.jpg,Today
+2520 Houston Ave #201,Houston,TX,77009,718500.0,2.0,2.0,1450.0,,CONDO,https://photos.zillowstatic.com/fp/ef7c0250cf38d22f3f3106f93a66da61-p_e.jpg,Today
+1714 Vassar St,Houston,TX,77098,775000.0,3.0,5.0,3402.0,3245.22,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/07b8268f13998c9d2a8ad390007b37d7-p_e.jpg,Today
