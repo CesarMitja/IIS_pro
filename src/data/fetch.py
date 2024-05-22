@@ -28,7 +28,7 @@ new_listings = []
 for listing in data['results']:
     # Extract the 'datePriceChanged' or use 'timeOnZillow' to determine the listing date
     date_price_changed = listing.get('datePriceChanged')
-    
+
     if date_price_changed:
         listing_date = timestamp_to_date(date_price_changed)
         # Check if the listing date is yesterday or today
@@ -67,9 +67,7 @@ with open(filename, mode='a', newline='', encoding='utf-8') as file:
             'Bathrooms': listing.get('bathrooms'),
             'Living Area': listing.get('livingArea'),
             'Lot Area': listing.get('lotAreaValue'),
-            'Type': listing.get('homeType'),
-            'Image': listing.get('imgSrc'),
-            'Date Listed': timestamp_to_date(listing['datePriceChanged']) if listing.get('datePriceChanged') else 'Today'
+            'Type': listing.get('homeType')
         })
 
 print(f"Data saved to {filename}")
