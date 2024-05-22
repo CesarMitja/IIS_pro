@@ -203,3 +203,44 @@ Address,City,State,Zipcode,Price,Bedrooms,Bathrooms,Living Area,Lot Area,Type,Im
 9305 Coffee St,Houston,TX,77033,139995.0,3.0,2.0,1050.0,3963.96,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/85980ff6211beaec83c973cee70abf07-p_e.jpg,Today
 7124 Avenue F #20,Houston,TX,77011,1250000.0,1.0,1.0,3752.0,7500.0,MULTI_FAMILY,https://photos.zillowstatic.com/fp/ef4a2cabab3e98a9edeab3b8ff99fc4f-p_e.jpg,Today
 9933 1/2 Sandra St,Houston,TX,77016,299500.0,,0.0,,0.8462580348943985,LOT,https://photos.zillowstatic.com/fp/4fd94cdd376d10061c60b1fd46620d16-p_e.jpg,Today
+10555 Logger Pine Trl,Houston,TX,77088,310000.0,4.0,3.0,2384.0,4229.676,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/6f5ec5915906451e42c2f24fa5ee3230-p_e.jpg,Today
+12818 Hidden Castle Dr,Houston,TX,77015,259000.0,3.0,2.0,1695.0,6995.736,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/d9bfe9c6c1a25a6ca985f9f89cb1ce90-p_e.jpg,Today
+1409 Morris St,Houston,TX,77009,320000.0,2.0,2.0,1148.0,5000.688,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/2c8c60696aa9609072d7dc39f35c303c-p_e.jpg,Today
+4002 Dumbarton St,Houston,TX,77025,1575000.0,4.0,4.0,3646.0,8001.972,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/240c228df3d5cb1a9a1ae6d47307aa25-p_e.jpg,Today
+0 Vega St,Houston,TX,77088,65000.0,,0.0,,7139.484,LOT,https://photos.zillowstatic.com/fp/7e95d0fd60bebc9f6fc39ca8be5e7294-p_e.jpg,2024-05-22 07:00:00
+250 N Carolina St,Houston,TX,77029,75000.0,,0.0,,6817.14,LOT,https://photos.zillowstatic.com/fp/5d96570d93e55fa1118594bdcfb63269-p_e.jpg,Today
+5123 Maple Terrace Dr,Kingwood,TX,77345,525000.0,5.0,4.0,3076.0,10201.752,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/4f0c670267cbd78974c77f57d14e6c82-p_e.jpg,Today
+9940 Allwood St,Houston,TX,77016,220000.0,3.0,4.0,1854.0,0.37320000000000003,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/f3dbd0a4217f2162ac4491af9a0027f0-p_e.jpg,Today
+5606 Elm Springs Dr,Houston,TX,77048,205000.0,5.0,2.0,1265.0,6438.168,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/4fb7cb0ff6ad7f8df2f86149787a523c-p_e.jpg,Today
+"RC Carlisle Plan, Memorial Heights",Houston,TX,77073,241990.0,3.0,2.0,1612.0,,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/9078bd75fbd8ba23af8643fda4e230f4-p_e.jpg,Today
+12815 Deer Cove Ln,Houston,TX,77041,405000.0,4.0,4.0,2463.0,5776.056,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/775d1a460ddd6307c9dd505b381879d4-p_e.jpg,Today
+815 Fairbanks St,Houston,TX,77009,670000.0,3.0,3.0,2056.0,7949.7,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/a07141fa2d7f875338c541a304ce53cd-p_e.jpg,Today
+3531 Corder St #B,Houston,TX,77021,440000.0,3.0,4.0,2130.0,2500.344,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/719884e5600bba4d9205b7ef944a9dab-p_e.jpg,2024-05-22 07:00:00
+13031 Sweetgum Shores Dr,Houston,TX,77044,345000.0,4.0,2.0,2330.0,6555.78,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/749e9036beef4a64ecdd915680ca7a5e-p_e.jpg,Today
+4005 Tennyson St,Houston,TX,77005,1675000.0,4.0,4.0,3463.0,5248.98,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/03d972b59a05fd7df35f419b6c1867b2-p_e.jpg,Today
+3531 Corder St #A,Houston,TX,77021,440000.0,3.0,4.0,2130.0,2500.344,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/719884e5600bba4d9205b7ef944a9dab-p_e.jpg,2024-05-22 07:00:00
+13507 Treshill Ct,Houston,TX,77049,255000.0,3.0,2.0,1271.0,5174.928,SINGLE_FAMILY,"https://maps.googleapis.com/maps/api/staticmap?mobile=false&sensor=true&maptype=satellite&size=575x242&zoom=17&center=29.83389663696289,-95.18843841552734&key=AIzaSyBJsNQO5ZeG-XAbqqWLKwG08fWITSxg33w&signature=fSvoXNnYuwezEIzRtlrsgrB-bAo=",Today
+11407 Iberia Dr,Houston,TX,77065,425000.0,2.0,2.0,2194.0,0.5992,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/f1685d1acb86674221f230958d0fce32-p_e.jpg,Today
+11014 Marshhay Ct,Houston,TX,77086,205000.0,3.0,2.0,1463.0,4199.184,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/e5ceec204343bc0366f753da9de79159-p_e.jpg,Today
+12972 Greenway Chase Ct #2972,Houston,TX,77072,199950.0,3.0,3.0,1422.0,1666.0,TOWNHOUSE,https://photos.zillowstatic.com/fp/21ceb79b269a90133318ceb5be13423f-p_e.jpg,Today
+9306 Bintliff Dr,Houston,TX,77074,319000.0,3.0,2.0,1804.0,8450.64,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/e91728c39e1f313a722b43a739661ed4-p_e.jpg,Today
+28510 Napa Crossing Ln,Huffman,TX,77336,949000.0,4.0,4.0,3977.0,1.7634,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/32e816782192206a5fd7ffcceb0866e5-p_e.jpg,Today
+14614 Lea Valley Dr,Houston,TX,77049,232000.0,3.0,2.0,1584.0,8125.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/8e6c498439dac78e14a630607df60ac2-p_e.jpg,Today
+8829 Carousel Ln,Houston,TX,77080,250000.0,3.0,1.0,1196.0,5235.912,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/1883a248805bcb0eef70cdd2d452be11-p_e.jpg,Today
+7422 Darnell St,Houston,TX,77074,265000.0,4.0,3.0,2512.0,7013.16,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/6e7a3dcedb7d1086e4295e78c4ee5c14-p_e.jpg,Today
+6618 Knox St,Houston,TX,77091,305000.0,3.0,3.0,1881.0,3001.284,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/856c5e41799a630dd5b1ce2f4cb1f048-p_e.jpg,Today
+2001 Holcombe Blvd UNIT 3003,Houston,TX,77030,359000.0,2.0,2.0,1250.0,,CONDO,https://photos.zillowstatic.com/fp/3b8fcf27f5bbd31519c93de360867d34-p_e.jpg,2024-05-21 07:00:00
+420 W 34th St,Houston,TX,77018,525000.0,2.0,1.0,1135.0,10663.488,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/c86330988ebe3f94c227521d9cf4b24e-p_e.jpg,Today
+11615 Kirkhollow Dr,Houston,TX,77089,185000.0,3.0,2.0,1414.0,7148.196,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/087ebe20c1b9dbda6e1c00c1384fcf08-p_e.jpg,Today
+2338 Lidstone St,Houston,TX,77023,215000.0,3.0,1.0,1400.0,5000.688,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/ddfe763f69d8189facef831d36e3d186-p_e.jpg,Today
+10030 Tiger Flower Ln,Houston,TX,77016,255990.0,3.0,2.0,1401.0,,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/64879a98866ba7c78c79877d13940685-p_e.jpg,Today
+6145 W Montgomery Rd,Houston,TX,77091,359900.0,3.0,4.0,1786.0,1402.632,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/4c2c08604ffa362923bd36c9854a97f5-p_e.jpg,Today
+815 Reinerman St,Houston,TX,77007,619900.0,3.0,4.0,2614.0,2260.764,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/c26000c35b1510217e58c9d8649adda5-p_e.jpg,Today
+17518 Cypress Laurel St,Houston,TX,77095,575000.0,5.0,5.0,3751.0,9914.256,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/ee339d072f4a831b152b7deb5a3e23ab-p_e.jpg,Today
+2336 Fairwind Rd,Houston,TX,77062,259900.0,2.0,3.0,1343.0,1171.0,TOWNHOUSE,https://photos.zillowstatic.com/fp/a4af9c277329bcd33cebe2e081afd427-p_e.jpg,Today
+2507 Joseph Pine Ln,Houston,TX,77088,173000.0,3.0,2.0,1456.0,6316.2,MANUFACTURED,https://photos.zillowstatic.com/fp/2a2d3a6ba0afb28cd555ba76d083c3b9-p_e.jpg,Today
+3918 Rock Springs Dr,Kingwood,TX,77345,385000.0,4.0,3.0,2416.0,8703.288,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/22da80bb1903cd1ea853e467aa66f961-p_e.jpg,Today
+1433 Scharpe St,Houston,TX,77023,425000.0,6.0,5.0,1647.0,6250.86,MULTI_FAMILY,https://photos.zillowstatic.com/fp/fd6bb967da824f1d20922e99848b3069-p_e.jpg,Today
+11511 Sugarbush Ridge Ln,Houston,TX,77089,307000.0,4.0,2.0,1866.0,6207.3,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/f4dbe0407a5652cd0f053716d6c2b68e-p_e.jpg,Today
+2105 Wavell St,Houston,TX,77088,310000.0,3.0,3.0,1762.0,3741.0,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/31cbf5929c5170505c40a0a073185350-p_e.jpg,Today
+5318 Cortelyou Ln,Houston,TX,77021,305000.0,3.0,2.0,1752.0,6381.54,SINGLE_FAMILY,https://photos.zillowstatic.com/fp/98349ef9515c8c14c0d9498cdb3a7068-p_e.jpg,Today
