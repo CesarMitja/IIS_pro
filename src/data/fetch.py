@@ -11,15 +11,15 @@ def timestamp_to_date(timestamp):
 yesterday = datetime.now() - timedelta(1)
 print("Yesterday's date:", yesterday.strftime('%Y-%m-%d'))
 
-# Endpoint and headers
 url = "https://zillow56.p.rapidapi.com/search"
-querystring = {"location":"houston, tx"}
+
+querystring = {"location":"houston, tx","output":"json"}
+
 headers = {
-    "X-RapidAPI-Key": RAPIDAPI_KEY,
-    "X-RapidAPI-Host": "zillow56.p.rapidapi.com"
+	"x-rapidapi-key": "37525841acmshd3f8a8fdd884aabp1226a9jsnfc8f85254ca0",
+	"x-rapidapi-host": "zillow56.p.rapidapi.com"
 }
 
-# Send the request to the API
 response = requests.get(url, headers=headers, params=querystring)
 data = response.json()
 
@@ -41,7 +41,7 @@ for listing in data['results']:
 print(f"Found {len(new_listings)} new listings from the last day.")
 
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) 
-filename = os.path.join(project_root, 'data', 'raw', 'listings.csv')
+filename = os.path.join(project_root, 'data', 'raw', 'listings2.csv')
 file_exists = os.path.isfile(filename)
 # Open the file in write mode
 with open(filename, mode='a', newline='', encoding='utf-8') as file:

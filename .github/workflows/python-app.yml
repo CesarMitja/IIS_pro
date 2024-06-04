@@ -25,8 +25,8 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install requests
       
-            - name: Run scraper
-              run: python src/data/fetch.py
+            # - name: Run scraper
+            #   run: python src/data/fetch.py
   
             - name: Add data with GIT
               run: |
