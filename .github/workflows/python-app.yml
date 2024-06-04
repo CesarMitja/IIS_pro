@@ -8,30 +8,42 @@ on:
       - main 
 
 jobs:
-        scrape:
-          runs-on: ubuntu-latest
-          if: github.event_name == 'schedule'
-          steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
-      
-            - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                python-version: '3.9'
-      
-            - name: Install dependencies
-              run: |
-                python -m pip install --upgrade pip
-                pip install requests
-      
-            # - name: Run scraper
-            #   run: python src/data/fetch.py
+  scrape:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
   
-            - name: Add data with GIT
-              run: |
-                git config --local user.email "action@github.com"
-                git config --local user.name "GitHub Action"
-                git add .
-                git commit -m "Update data" -a || echo "No changes to commit"
-                git push
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+  
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests great_expectations evidently
+  
+      - name: Copy data
+        run: |
+          cp data/raw/listings.csv data/raw/listings_ref.csv;
+          cp data/raw/listings_rent.csv data/raw/listings_rent_ref.csv;
+      
+      # - name: Run scraper
+      #   run: python src/data/fetch.py
+
+      # - name: Run scraper rent
+      #   run: python src/data/fetch_rent.py
+      
+      - name: Run Validation
+        run: python src/data/Validate_and_Test.py
+
+      - name: Add data with GIT
+        if: success()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update data" -a || echo "No changes to commit"
+          git push

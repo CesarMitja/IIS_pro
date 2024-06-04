@@ -1,0 +1,373 @@
+{
+    "success": true,
+    "results": [
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_not_be_null",
+                "kwargs": {
+                    "column": "Price",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_between",
+                "kwargs": {
+                    "column": "Price",
+                    "min_value": 0,
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "missing_count": 0,
+                "missing_percent": 0.0,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "unexpected_percent_nonmissing": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_of_type",
+                "kwargs": {
+                    "column": "Price",
+                    "type_": "float64",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "observed_value": "float64"
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_not_be_null",
+                "kwargs": {
+                    "column": "Bedrooms",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_between",
+                "kwargs": {
+                    "column": "Bedrooms",
+                    "min_value": 0,
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "missing_count": 0,
+                "missing_percent": 0.0,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "unexpected_percent_nonmissing": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_of_type",
+                "kwargs": {
+                    "column": "Bedrooms",
+                    "type_": "float64",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "observed_value": "float64"
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_not_be_null",
+                "kwargs": {
+                    "column": "Bathrooms",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_between",
+                "kwargs": {
+                    "column": "Bathrooms",
+                    "min_value": 0,
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "missing_count": 0,
+                "missing_percent": 0.0,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "unexpected_percent_nonmissing": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_of_type",
+                "kwargs": {
+                    "column": "Bathrooms",
+                    "type_": "float64",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "observed_value": "float64"
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_not_be_null",
+                "kwargs": {
+                    "column": "Living Area",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_between",
+                "kwargs": {
+                    "column": "Living Area",
+                    "min_value": 0,
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "missing_count": 0,
+                "missing_percent": 0.0,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "unexpected_percent_nonmissing": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_of_type",
+                "kwargs": {
+                    "column": "Living Area",
+                    "type_": "float64",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "observed_value": "float64"
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_not_be_null",
+                "kwargs": {
+                    "column": "Type",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        },
+        {
+            "success": true,
+            "expectation_config": {
+                "expectation_type": "expect_column_values_to_be_of_type",
+                "kwargs": {
+                    "column": "Type",
+                    "type_": "str",
+                    "result_format": "BASIC"
+                },
+                "meta": {}
+            },
+            "result": {
+                "element_count": 11,
+                "missing_count": 0,
+                "missing_percent": 0.0,
+                "unexpected_count": 0,
+                "unexpected_percent": 0.0,
+                "unexpected_percent_total": 0.0,
+                "unexpected_percent_nonmissing": 0.0,
+                "partial_unexpected_list": []
+            },
+            "meta": {},
+            "exception_info": {
+                "raised_exception": false,
+                "exception_message": null,
+                "exception_traceback": null
+            }
+        }
+    ],
+    "evaluation_parameters": {},
+    "statistics": {
+        "evaluated_expectations": 14,
+        "successful_expectations": 14,
+        "unsuccessful_expectations": 0,
+        "success_percent": 100.0
+    },
+    "meta": {
+        "great_expectations_version": "0.18.13",
+        "expectation_suite_name": "default",
+        "run_id": {
+            "run_name": null,
+            "run_time": "2024-06-04T13:47:49.317361+02:00"
+        },
+        "batch_kwargs": {
+            "ge_batch_id": "447f8a4d-2268-11ef-af11-8afc75cf5b47"
+        },
+        "batch_markers": {},
+        "batch_parameters": {},
+        "validation_time": "20240604T114749.317361Z",
+        "expectation_suite_meta": {
+            "great_expectations_version": "0.18.13"
+        }
+    }
+}
