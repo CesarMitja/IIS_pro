@@ -2,8 +2,7 @@ import requests
 import csv
 from datetime import datetime, timedelta
 import os 
-RAPIDAPI_KEY = '37525841acmshd3f8a8fdd884aabp1226a9jsnfc8f85254ca0'
-# Function to convert timestamp to datetime
+
 def timestamp_to_date(timestamp):
     return datetime.fromtimestamp(int(timestamp) / 1000)
 
@@ -13,13 +12,17 @@ print("Yesterday's date:", yesterday.strftime('%Y-%m-%d'))
 
 url = "https://zillow56.p.rapidapi.com/search"
 
-querystring = {"location":"houston, tx","output":"json","status":"forSale"}
+querystring = {"location":"houston, tx","output":"json","status":"forRent"}
+
 headers = {
-	"x-rapidapi-key": "37525841acmshd3f8a8fdd884aabp1226a9jsnfc8f85254ca0",
+	"x-rapidapi-key": "9e5246f4e9msh9943232bbba051ap10f36cjsncd7485e246c0",
 	"x-rapidapi-host": "zillow56.p.rapidapi.com"
 }
 
 response = requests.get(url, headers=headers, params=querystring)
+
+print(response.json())
+
 data = response.json()
 
 # Check and process each listing in the results
@@ -40,12 +43,12 @@ for listing in data['results']:
 print(f"Found {len(new_listings)} new listings from the last day.")
 
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) 
-filename = os.path.join(project_root, 'data', 'raw', 'listings2.csv')
+filename = os.path.join(project_root, 'data', 'raw', 'listings_rent.csv')
 file_exists = os.path.isfile(filename)
 # Open the file in write mode
 with open(filename, mode='a', newline='', encoding='utf-8') as file:
     # Define the field names for the CSV
-    fieldnames = ['Address', 'City', 'State', 'Zipcode', 'Price', 'Bedrooms', 'Bathrooms', 'Living Area', 'Lot Area', 'Type']
+    fieldnames = [ 'Price', 'Bedrooms', 'Bathrooms', 'Living Area', 'Type']
     
     # Create a CSV DictWriter object
     writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -57,16 +60,12 @@ with open(filename, mode='a', newline='', encoding='utf-8') as file:
     # Write data for each new listing
     for listing in new_listings:
         writer.writerow({
-            'Address': listing.get('streetAddress'),
-            'City': listing.get('city'),
-            'State': listing.get('state'),
-            'Zipcode': listing.get('zipcode'),
             'Price': listing.get('price'),
             'Bedrooms': listing.get('bedrooms'),
             'Bathrooms': listing.get('bathrooms'),
             'Living Area': listing.get('livingArea'),
-            'Lot Area': listing.get('lotAreaValue'),
             'Type': listing.get('homeType')
         })
 
 print(f"Data saved to {filename}")
+
