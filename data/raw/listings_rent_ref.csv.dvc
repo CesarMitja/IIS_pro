@@ -1,0 +1,5 @@
+outs:
+- md5: 51281c2442ae5a416764e7a29121f3ec
+  size: 1071
+  hash: md5
+  path: listings_rent_ref.csv
