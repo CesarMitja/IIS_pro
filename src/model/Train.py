@@ -7,9 +7,30 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import accuracy_score
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, GradientBoostingClassifier
-from sklearn.svm import SVC
+from sklearn.ensemble import GradientBoostingClassifier
+import mlflow
+import mlflow.sklearn
+from mlflow.tracking import MlflowClient
+import dagshub
+import onnx
+import onnxmltools
+import skl2onnx
+from skl2onnx.common.data_types import FloatTensorType
+from onnxmltools.utils import float16_converter
+
+# Konfiguracija MLflow
+dagshub_token = '22495012faf69bd7449136c47feddea65bd1ff8c'
+dagshub.auth.add_app_token(dagshub_token)
+dagshub.init(repo_name="IIS_pro", repo_owner="CesarMitja", mlflow=True)
+mlflow.set_tracking_uri('https://dagshub.com/CesarMitja/IIS_pro.mlflow')
+mlflow.set_experiment('Real_Estate_Price_Prediction')
+
+client = MlflowClient()
+try:
+    latest_version = client.get_latest_versions("Price_Prediction_Model")[0]
+    best_test_accuracy = client.get_metric_history(latest_version.run_id, "Test Accuracy")[-1].value
+except (IndexError, ValueError, mlflow.exceptions.MlflowException):
+    best_test_accuracy = 0
 
 # Function to handle missing data
 def handle_missing_data(df):
@@ -43,7 +64,6 @@ listings_df['Price'] = pd.to_numeric(listings_df['Price'], errors='coerce')
 # Drop any rows that now have NaN in 'Price' after this operation
 listings_df = listings_df.dropna(subset=['Price'])
 
-
 # Categorize the 'Price' into bins of $10,000
 try:
     price_bins = np.arange(listings_df['Price'].min(), listings_df['Price'].max() + 10000, 10000)
@@ -54,7 +74,7 @@ except Exception as e:
     exit()
 
 # Prepare the data for modeling
-X = listings_df.drop(['Price Category', 'Address'], axis=1, errors='ignore')  # Drop Address if present
+X = listings_df.drop(['Price Category', 'Address', 'Zipcode', 'City', 'State'], axis=1, errors='ignore')
 y = listings_df['Price Category']
 
 # Label Encoding
@@ -84,20 +104,19 @@ preprocessor = ColumnTransformer(
 
 # Define a list of models to evaluate
 models = {
-    'K-Nearest Neighbors': KNeighborsClassifier(3),
-    'Extra Trees Classifier': ExtraTreesClassifier(random_state=42),
-    'Random Forest Classifier': RandomForestClassifier(random_state=42),
-    'Support Vector Machine': SVC(kernel='linear'),
     'Gradient Boosting Classifier': GradientBoostingClassifier(random_state=42)
 }
 
 # Split the data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
+# Define input names for ONNX based on feature names
+input_names = numeric_features + categorical_features
+initial_type = [(name, FloatTensorType([None, 1])) for name in input_names]
+
 # Evaluate each model and check for overfitting
 results = {}
 best_model = None
-best_accuracy = 0
 
 for name, model in models.items():
     # Create the modeling pipeline
@@ -117,23 +136,53 @@ for name, model in models.items():
     y_pred = pipeline.predict(X_test)
     test_accuracy = accuracy_score(y_test, y_pred)
     
+    # Log parameters, metrics, and model to MLflow
+    mlflow.log_param("Model", name)
+    mlflow.log_metric("Train Accuracy", train_accuracy)
+    mlflow.log_metric("Test Accuracy", test_accuracy)
+    
     # Store results
     results[name] = {'Train Accuracy': train_accuracy, 'Test Accuracy': test_accuracy}
     
     print(f"{name} - Train Accuracy: {train_accuracy:.4f}, Test Accuracy: {test_accuracy:.4f}")
     
     # Update the best model if this model is better
-    if test_accuracy > best_accuracy:
-        best_accuracy = test_accuracy
+    if test_accuracy > best_test_accuracy:
+        best_test_accuracy = test_accuracy
         best_model = pipeline
+        # Save preprocessor and label encoder
+        preprocessor_path = os.path.join(project_root, 'models', 'preprocessor.pkl')
+        label_encoder_path = os.path.join(project_root, 'models', 'label_encoder.pkl')
+        joblib.dump(preprocessor, preprocessor_path)
+        joblib.dump(label_encoder, label_encoder_path)
+        mlflow.log_artifact(preprocessor_path, "preprocessor")
+        mlflow.log_artifact(label_encoder_path, "label_encoder")
+
+        # Save the model as ONNX
+        onnx_model = skl2onnx.convert_sklearn(best_model, initial_types=initial_type)
+        onnx_model_path = os.path.join(project_root, 'models', 'best_model_price.onnx')
+        with open(onnx_model_path, "wb") as f:
+            f.write(onnx_model.SerializeToString())
+        
+        # Quantize the model
+        quantized_model = float16_converter.convert_float_to_float16(onnx_model)
+        quantized_model_path = os.path.join(project_root, 'models', 'quantized_model_price.onnx')
+        with open(quantized_model_path, "wb") as f:
+            f.write(quantized_model.SerializeToString())
+
+        # Log the ONNX models
+        mlflow.log_artifact(onnx_model_path, "onnx_model")
+        mlflow.log_artifact(quantized_model_path, "quantized_onnx_model")
+        mlflow.sklearn.log_model(pipeline, "model", registered_model_name="Price_Prediction_Model")
 
 # Display all results
 print("All model performances:", results)
 
 # Save the best model
 if best_model is not None:
-    best_model_path = os.path.join(project_root, 'models', 'best_model.pkl')
+    best_model_path = os.path.join(project_root, 'models', 'best_model_price.pkl')
     joblib.dump(best_model, best_model_path)
+    mlflow.log_artifact(best_model_path, "best_model")
     print(f"Best model saved to {best_model_path}")
 else:
     print("No best model found.")

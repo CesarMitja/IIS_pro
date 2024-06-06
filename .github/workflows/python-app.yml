@@ -23,12 +23,22 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests great_expectations evidently
-  
+          pip install requests great_expectations evidently dvc s3fs
+
+      - name: Configure DVC Remote and pull
+        id: config
+        run: |
+          dvc remote add origin s3://dvc -f
+          dvc remote modify origin endpointurl https://dagshub.com/CesarMitja/IIS_2.s3
+          dvc remote modify origin --local access_key_id ${{ secrets.DVC_ACCESS_KEY_ID }}
+          dvc remote modify origin --local secret_access_key ${{ secrets.DVC_SECRET_ACCESS_KEY }}
+          dvc pull -r origin data/raw/listings.csv
+          dvc pull -r origin data/raw/listings_rent.csv
+
       - name: Copy data
         run: |
-          cp data/raw/listings.csv data/raw/listings_ref.csv;
-          cp data/raw/listings_rent.csv data/raw/listings_rent_ref.csv;
+          cp data/raw/listings.csv data/raw/listings_ref.csv
+          cp data/raw/listings_rent.csv data/raw/listings_rent_ref.csv
       
       # - name: Run scraper
       #   run: python src/data/fetch.py
@@ -39,9 +49,17 @@ jobs:
       - name: Run Validation
         run: python src/data/Validate_and_Test.py
 
-      - name: Add data with GIT
+      - name: Add data with DVC and GIT
         if: success()
         run: |
+          dvc add data/raw/listings.csv
+          dvc push -r origin data/raw/listings.csv
+          dvc add data/raw/listings_rent.csv
+          dvc push -r origin data/raw/listings_rent.csv
+          dvc add data/raw/listings_ref.csv
+          dvc push -r origin data/raw/listings_ref.csv
+          dvc add data/raw/listings_rent_ref.csv
+          dvc push -r origin data/raw/listings_rent_ref.csv
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
