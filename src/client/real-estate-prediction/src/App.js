@@ -194,14 +194,14 @@ function App() {
             <div className="App-3dmodel">
               <House3D {...houseParams} />
             </div>
-            <div className="App-canvas">
+            {/* <div className="App-canvas">
               <CanvasArea
                 updateLivingArea={updateLivingArea}
                 updateLotArea={updateLotArea}
                 initialLivingArea={houseParams.livingArea}
                 initialLotArea={houseParams.lotArea}
               />
-            </div>
+            </div> */}
           </div>
         ) : isAuthenticated ? (
           <AdminDashboard />
