@@ -53,7 +53,7 @@ function App() {
   const handleRentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/predict_rent', {
+      const response = await axios.post('https://project-service-latest.onrender.com/api/predict_rent', {
         Bedrooms: parseInt(rentFormData.Bedrooms),
         Bathrooms: parseInt(rentFormData.Bathrooms),
         'Living Area': parseInt(rentFormData.LivingArea),
@@ -68,7 +68,7 @@ function App() {
   const handlePriceSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/predict_price', {
+      const response = await axios.post('https://project-service-latest.onrender.com/api/predict_price', {
         Bedrooms: parseInt(priceFormData.Bedrooms),
         Bathrooms: parseInt(priceFormData.Bathrooms),
         'Living Area': parseInt(priceFormData.LivingArea),

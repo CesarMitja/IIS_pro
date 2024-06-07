@@ -65,17 +65,17 @@ export default function AdminDashboard() {
 
   const fetchRentPredictions = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/rent_predictions');
+      const response = await axios.get('https://project-service-latest.onrender.com/api/rent_predictions');
       setRentPredictions(response.data);
       setFilteredRentPredictions(response.data);
     } catch (error) {
       setError(error.message);
     }
   };
-
+  
   const fetchPricePredictions = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/price_predictions');
+      const response = await axios.get('https://project-service-latest.onrender.com/api/price_predictions');
       setPricePredictions(response.data);
       setFilteredPricePredictions(response.data);
     } catch (error) {
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
 
   const fetchRentMetrics = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/rent_daily_metrics');
+      const response = await axios.get('https://project-service-latest.onrender.com/api/rent_daily_metrics');
       setRentMetrics(response.data);
     } catch (error) {
       setError(error.message);
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
 
   const fetchPriceMetrics = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/price_daily_metrics');
+      const response = await axios.get('https://project-service-latest.onrender.com/api/price_daily_metrics');
       setPriceMetrics(response.data);
     } catch (error) {
       setError(error.message);

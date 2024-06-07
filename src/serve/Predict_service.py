@@ -185,7 +185,6 @@ def make_price_prediction(input_data):
     return prediction[0]
 
 @app.route('/predict_rent', methods=['POST'])
-@cross_origin()
 def predict_rent():
     data = request.json
     print("Received data for rent prediction:", data)
@@ -219,7 +218,6 @@ def predict_rent():
         return jsonify({"error": "Missing required columns"}), 400
 
 @app.route('/predict_price', methods=['POST'])
-@cross_origin()
 def predict_price():
     data = request.json
     print("Received data for price prediction:", data)
@@ -276,7 +274,6 @@ def get_daily_price_predictions():
 from datetime import datetime, timezone
 
 @app.route('/metrics', methods=['GET'])
-@cross_origin()
 def calculate_metrics():
     today = datetime.now(timezone.utc)
     start_of_day = datetime(today.year, today.month, today.day, tzinfo=timezone.utc)  # Start of the day in UTC
