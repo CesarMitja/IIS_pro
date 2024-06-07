@@ -18,12 +18,10 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# MongoDB connection
 CONNECTION_STRING = "mongodb+srv://cesi:Hondacbr125.@ptscluster.gkdlocr.mongodb.net/?retryWrites=true&appName=PTScluster"
 client = pymongo.MongoClient(CONNECTION_STRING)
 db = client.IIS_pro
 
-# Collections for predictions
 rent_predictions_collection = db.Rent
 price_predictions_collection = db.Price
 price_predictions_collection_daily = db.Price_Daily
@@ -38,7 +36,6 @@ mlflow.set_experiment('Real_Estate_Prediction_Service')
 
 mlflow_client = MlflowClient()
 
-# Load models and preprocessors
 def load_model(run_id, artifact_path):
     local_model_path = mlflow.artifacts.download_artifacts(artifact_uri=f"runs:/{run_id}/{artifact_path}")
     return ort.InferenceSession(local_model_path)
@@ -47,21 +44,18 @@ def load_scaler(run_id, artifact_path):
     local_scaler_path = mlflow.artifacts.download_artifacts(artifact_uri=f"runs:/{run_id}/{artifact_path}")
     return joblib.load(local_scaler_path)
 
-# Load rent model
 rent_model_name = "Rent_Prediction_Model"
 rent_latest_version = mlflow_client.get_latest_versions(rent_model_name)[0]
 rent_model = load_model(rent_latest_version.run_id, "quantized_onnx_model/quantized_model_rent.onnx")
 rent_preprocessor = load_scaler(rent_latest_version.run_id, "preprocessor/preprocessor.pkl")
 rent_label_encoder = load_scaler(rent_latest_version.run_id, "label_encoder/label_encoder.pkl")
 
-# Load price model
 price_model_name = "Price_Prediction_Model"
 price_latest_version = mlflow_client.get_latest_versions(price_model_name)[0]
 price_model = load_model(price_latest_version.run_id, "quantized_onnx_model/quantized_model_price.onnx")
 price_preprocessor = load_scaler(price_latest_version.run_id, "preprocessor/preprocessor.pkl")
 price_label_encoder = load_scaler(price_latest_version.run_id, "label_encoder/label_encoder.pkl")
 
-# Function to make rent prediction
 def make_rent_prediction(input_data):
     expected_columns = ['Bedrooms', 'Bathrooms', 'Living_Area', 'Type']
     received_columns = input_data.columns.tolist()
@@ -122,7 +116,6 @@ def make_rent_prediction(input_data):
 
     return prediction[0]
 
-# Function to make price prediction
 def make_price_prediction(input_data):
     expected_columns = ['Bedrooms', 'Bathrooms', 'Living_Area', 'Lot_Area', 'Type']
     received_columns = input_data.columns.tolist()
@@ -293,7 +286,6 @@ def calculate_metrics():
     rent_predictions_df = pd.DataFrame(rent_predictions)
     price_predictions_df = pd.DataFrame(price_predictions)
     
-    # Processing and calculations
     rent_predictions_df['RentPrediction'] = rent_predictions_df['Prediction'].str.split('-').str[1].str.replace('$', '').astype(int)
     rent_mse = mean_squared_error(rent_predictions_df['Actual'], rent_predictions_df['RentPrediction'])
     rent_mae = mean_absolute_error(rent_predictions_df['Actual'], rent_predictions_df['RentPrediction'])
@@ -302,7 +294,6 @@ def calculate_metrics():
     price_mse = mean_squared_error(price_predictions_df['Actual'], price_predictions_df['PricePrediction'])
     price_mae = mean_absolute_error(price_predictions_df['Actual'], price_predictions_df['PricePrediction'])
     
-    # Prepare DataFrames for MongoDB
     df1 = pd.DataFrame({'Rent_MSE': [rent_mse], 'Rent_MAE': [rent_mae], 'timestamp': [datetime.now(timezone.utc)]})
     df2 = pd.DataFrame({'Price_MSE': [price_mse], 'Price_MAE': [price_mae], 'timestamp': [datetime.now(timezone.utc)]})
     
