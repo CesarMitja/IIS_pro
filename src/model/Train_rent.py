@@ -13,10 +13,9 @@ import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 import dagshub
 import onnx
-import onnxmltools
 import skl2onnx
-from skl2onnx.common.data_types import FloatTensorType
-from onnxmltools.utils import float16_converter
+from skl2onnx.common.data_types import FloatTensorType, StringTensorType
+from onnxruntime.quantization import quantize_dynamic, QuantType
 
 # Konfiguracija MLflow
 dagshub_token = '22495012faf69bd7449136c47feddea65bd1ff8c'
@@ -73,8 +72,11 @@ except Exception as e:
     print(f"Error categorizing prices: {e}")
     exit()
 
+# Rename columns to remove spaces
+listings_df.rename(columns={'Living Area': 'Living_Area'}, inplace=True)
+
 # Prepare the data for modeling
-X = listings_df.drop(['Price Category'], axis=1, errors='ignore')
+X = listings_df.drop(['Price Category', 'Price'], axis=1, errors='ignore')
 y = listings_df['Price Category']
 
 # Label Encoding
@@ -91,7 +93,7 @@ numeric_transformer = Pipeline(steps=[
 ])
 
 categorical_transformer = Pipeline(steps=[
-    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+    ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))
 ])
 
 # Combine into a single preprocessor
@@ -111,8 +113,7 @@ models = {
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
 # Define input names for ONNX based on feature names
-input_names = numeric_features + categorical_features
-initial_type = [(name, FloatTensorType([None, 1])) for name in input_names]
+input_names = [(name, FloatTensorType([None, 1])) for name in numeric_features] + [(name, StringTensorType([None, 1])) for name in categorical_features]
 
 # Evaluate each model and check for overfitting
 results = {}
@@ -159,16 +160,14 @@ for name, model in models.items():
         mlflow.log_artifact(label_encoder_path, "label_encoder")
 
         # Save the model as ONNX
-        onnx_model = skl2onnx.convert_sklearn(best_model, initial_types=initial_type)
+        onnx_model = skl2onnx.convert_sklearn(best_model, initial_types=input_names)
         onnx_model_path = os.path.join(project_root, 'models', 'best_model_rent.onnx')
         with open(onnx_model_path, "wb") as f:
             f.write(onnx_model.SerializeToString())
         
         # Quantize the model
-        quantized_model = float16_converter.convert_float_to_float16(onnx_model)
         quantized_model_path = os.path.join(project_root, 'models', 'quantized_model_rent.onnx')
-        with open(quantized_model_path, "wb") as f:
-            f.write(quantized_model.SerializeToString())
+        quantize_dynamic(onnx_model_path, quantized_model_path, weight_type=QuantType.QUInt8)
 
         # Log the ONNX models
         mlflow.log_artifact(onnx_model_path, "onnx_model")

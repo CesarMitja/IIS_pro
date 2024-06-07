@@ -6,17 +6,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import accuracy_score
-from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, mean_squared_error
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 import mlflow
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 import dagshub
-import onnx
-import onnxmltools
 import skl2onnx
-from skl2onnx.common.data_types import FloatTensorType
-from onnxmltools.utils import float16_converter
+from skl2onnx.common.data_types import FloatTensorType, StringTensorType
+from onnxruntime.quantization import quantize_dynamic, QuantType
 
 # Konfiguracija MLflow
 dagshub_token = '22495012faf69bd7449136c47feddea65bd1ff8c'
@@ -72,11 +72,12 @@ try:
 except Exception as e:
     print(f"Error categorizing prices: {e}")
     exit()
-
+listings_df.rename(columns={'Living Area': 'Living_Area','Lot Area': 'Lot_Area'}, inplace=True)
 # Prepare the data for modeling
-X = listings_df.drop(['Price Category', 'Address', 'Zipcode', 'City', 'State'], axis=1, errors='ignore')
+X = listings_df.drop(['Price Category', 'Price', 'Address', 'Zipcode', 'City', 'State'], axis=1, errors='ignore')
 y = listings_df['Price Category']
 
+print(X.head())
 # Label Encoding
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
@@ -91,7 +92,7 @@ numeric_transformer = Pipeline(steps=[
 ])
 
 categorical_transformer = Pipeline(steps=[
-    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+    ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))
 ])
 
 # Combine into a single preprocessor
@@ -104,76 +105,81 @@ preprocessor = ColumnTransformer(
 
 # Define a list of models to evaluate
 models = {
-    'Gradient Boosting Classifier': GradientBoostingClassifier(random_state=42)
+    'Gradient Boosting Classifier': GradientBoostingClassifier(random_state=42),
+    'Random Forest Classifier': RandomForestClassifier(random_state=42),
+    'K-Nearest Neighbors': KNeighborsClassifier(),
+    'Support Vector Classifier': SVC(probability=True)
 }
+
 
 # Split the data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
 # Define input names for ONNX based on feature names
-input_names = numeric_features + categorical_features
-initial_type = [(name, FloatTensorType([None, 1])) for name in input_names]
+initial_type = [(name, FloatTensorType([None, 1])) for name in numeric_features] + \
+               [(name, StringTensorType([None, 1])) for name in categorical_features]
 
 # Evaluate each model and check for overfitting
 results = {}
 best_model = None
 
 for name, model in models.items():
-    # Create the modeling pipeline
-    pipeline = Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('model', model)
-    ])
-    
-    # Train the model
-    pipeline.fit(X_train, y_train)
-    
-    # Predict and evaluate the model on the training data
-    y_train_pred = pipeline.predict(X_train)
-    train_accuracy = accuracy_score(y_train, y_train_pred)
-    
-    # Predict and evaluate the model on the test data
-    y_pred = pipeline.predict(X_test)
-    test_accuracy = accuracy_score(y_test, y_pred)
-    
-    # Log parameters, metrics, and model to MLflow
-    mlflow.log_param("Model", name)
-    mlflow.log_metric("Train Accuracy", train_accuracy)
-    mlflow.log_metric("Test Accuracy", test_accuracy)
-    
-    # Store results
-    results[name] = {'Train Accuracy': train_accuracy, 'Test Accuracy': test_accuracy}
-    
-    print(f"{name} - Train Accuracy: {train_accuracy:.4f}, Test Accuracy: {test_accuracy:.4f}")
-    
-    # Update the best model if this model is better
-    if test_accuracy > best_test_accuracy:
-        best_test_accuracy = test_accuracy
-        best_model = pipeline
-        # Save preprocessor and label encoder
-        preprocessor_path = os.path.join(project_root, 'models', 'preprocessor.pkl')
-        label_encoder_path = os.path.join(project_root, 'models', 'label_encoder.pkl')
-        joblib.dump(preprocessor, preprocessor_path)
-        joblib.dump(label_encoder, label_encoder_path)
-        mlflow.log_artifact(preprocessor_path, "preprocessor")
-        mlflow.log_artifact(label_encoder_path, "label_encoder")
-
-        # Save the model as ONNX
-        onnx_model = skl2onnx.convert_sklearn(best_model, initial_types=initial_type)
-        onnx_model_path = os.path.join(project_root, 'models', 'best_model_price.onnx')
-        with open(onnx_model_path, "wb") as f:
-            f.write(onnx_model.SerializeToString())
+    with mlflow.start_run(run_name=name):
+        # Create the modeling pipeline
+        pipeline = Pipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('model', model)
+        ])
         
-        # Quantize the model
-        quantized_model = float16_converter.convert_float_to_float16(onnx_model)
-        quantized_model_path = os.path.join(project_root, 'models', 'quantized_model_price.onnx')
-        with open(quantized_model_path, "wb") as f:
-            f.write(quantized_model.SerializeToString())
+        # Train the model
+        pipeline.fit(X_train, y_train)
+        
+        # Predict and evaluate the model on the training data
+        y_train_pred = pipeline.predict(X_train)
+        train_accuracy = accuracy_score(y_train, y_train_pred)
+        
+        # Predict and evaluate the model on the test data
+        y_pred = pipeline.predict(X_test)
+        test_accuracy = accuracy_score(y_test, y_pred)
+        test_mse = mean_squared_error(y_test, y_pred)
+        
+        # Log parameters, metrics, and model to MLflow
+        mlflow.log_param("Model", name)
+        mlflow.log_metric("Train Accuracy", train_accuracy)
+        mlflow.log_metric("Test Accuracy", test_accuracy)
+        mlflow.log_metric("Test MSE", test_mse)
+        
+        # Store results
+        results[name] = {'Train Accuracy': train_accuracy, 'Test Accuracy': test_accuracy, 'Test MSE': test_mse}
+        
+        print(f"{name} - Train Accuracy: {train_accuracy:.4f}, Test Accuracy: {test_accuracy:.4f}, Test MSE: {test_mse:.4f}")
+        
+        # Update the best model if this model is better
+        if test_accuracy > best_test_accuracy:
+            best_test_accuracy = test_accuracy
+            best_model = pipeline
+            # Save preprocessor and label encoder
+            preprocessor_path = os.path.join(project_root, 'models', 'preprocessor.pkl')
+            label_encoder_path = os.path.join(project_root, 'models', 'label_encoder.pkl')
+            joblib.dump(preprocessor, preprocessor_path)
+            joblib.dump(label_encoder, label_encoder_path)
+            mlflow.log_artifact(preprocessor_path, "preprocessor")
+            mlflow.log_artifact(label_encoder_path, "label_encoder")
 
-        # Log the ONNX models
-        mlflow.log_artifact(onnx_model_path, "onnx_model")
-        mlflow.log_artifact(quantized_model_path, "quantized_onnx_model")
-        mlflow.sklearn.log_model(pipeline, "model", registered_model_name="Price_Prediction_Model")
+            # Save the model as ONNX
+            onnx_model = skl2onnx.convert_sklearn(best_model, initial_types=initial_type)
+            onnx_model_path = os.path.join(project_root, 'models', 'best_model_price.onnx')
+            with open(onnx_model_path, "wb") as f:
+                f.write(onnx_model.SerializeToString())
+            
+            # Quantize the model
+            quantized_model_path = os.path.join(project_root, 'models', 'quantized_model_price.onnx')
+            quantize_dynamic(onnx_model_path, quantized_model_path, weight_type=QuantType.QUInt8)
+
+            # Log the ONNX models
+            mlflow.log_artifact(onnx_model_path, "onnx_model")
+            mlflow.log_artifact(quantized_model_path, "quantized_onnx_model")
+            mlflow.sklearn.log_model(pipeline, "model", registered_model_name="Price_Prediction_Model")
 
 # Display all results
 print("All model performances:", results)
