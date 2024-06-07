@@ -29,7 +29,8 @@ jobs:
           dvc remote modify origin endpointurl https://dagshub.com/CesarMitja/IIS_pro.s3
           dvc remote modify origin --local access_key_id ${{ secrets.DVC_ACCESS_KEY_ID }}
           dvc remote modify origin --local secret_access_key ${{ secrets.DVC_SECRET_ACCESS_KEY }}
-          dvc pull --force
+          dvc remote default origin
+          dvc pull -f
 
       - name: Run MLflow script
         run: python src/model/Train.py
