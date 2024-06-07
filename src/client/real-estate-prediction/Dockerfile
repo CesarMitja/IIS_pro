@@ -8,8 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
-
+RUN npm install 
+RUN npm install chart.js
 COPY . .
 
 # Build the React app for production
