@@ -25,6 +25,8 @@ db = client.IIS_pro
 # Collections for predictions
 rent_predictions_collection = db.Rent
 price_predictions_collection = db.Price
+price_predictions_collection_daily = db.Price_Daily
+rent_predictions_collection_daily = db.Rent_Daily
 
 # DagsHub and MLflow configuration
 dagshub_token = '9afb330391a28d5362f1f842cac05eef42708362'
@@ -249,29 +251,49 @@ def predict_price():
         print(f"Missing columns: {set(expected_columns) - set(df.columns)}")
         return jsonify({"error": "Missing required columns"}), 400
 
+
+@app.route('/api/rent_predictions', methods=['GET'])
+def get_rent_predictions():
+    predictions = list(rent_predictions_collection.find({}, {'_id': 0}))
+    return jsonify(predictions)
+
+@app.route('/api/price_predictions', methods=['GET'])
+def get_price_predictions():
+    predictions = list(price_predictions_collection.find({}, {'_id': 0}))
+    return jsonify(predictions)
+
 @app.route('/metrics', methods=['GET'])
 @cross_origin()
 def calculate_metrics():
     today = datetime.datetime.utcnow().date()
     rent_predictions = list(rent_predictions_collection.find({"timestamp": {"$gte": today}}))
     price_predictions = list(price_predictions_collection.find({"timestamp": {"$gte": today}}))
-
+    
     if not rent_predictions or not price_predictions:
         return jsonify({"error": "No predictions found for today"}), 404
 
     rent_predictions_df = pd.DataFrame(rent_predictions)
     price_predictions_df = pd.DataFrame(price_predictions)
-
+    df1 = pd.DataFrame()
+    df2 = pd.DataFrame()
     rent_mse = mean_squared_error(rent_predictions_df['Actual'], rent_predictions_df['Prediction'])
+    df1['Rent_MSE'] = rent_mse
     rent_mae = mean_absolute_error(rent_predictions_df['Actual'], rent_predictions_df['Prediction'])
+    df1['Rent_MAE'] = rent_mae
     price_mse = mean_squared_error(price_predictions_df['Actual'], price_predictions_df['Prediction'])
+    df2['Price_MSE'] = price_mse
     price_mae = mean_absolute_error(price_predictions_df['Actual'], price_predictions_df['Prediction'])
+    df2['Price_MAE'] = price_mae
 
     with mlflow.start_run(run_name="Daily Metrics"):
         mlflow.log_metric("Rent MSE", rent_mse)
         mlflow.log_metric("Rent MAE", rent_mae)
         mlflow.log_metric("Price MSE", price_mse)
         mlflow.log_metric("Price MAE", price_mae)
+        df1['timestamp'] = datetime.datetime.utcnow()
+        df2['timestamp'] = datetime.datetime.utcnow()
+        rent_predictions_collection_daily.insert_one(df1.to_dict(orient='records')[0])
+        price_predictions_collection_daily.insert_one(df2.to_dict(orient='records')[0])
 
     return jsonify({
         'rent_mse': rent_mse,

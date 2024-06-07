@@ -1,0 +1,68 @@
+.App-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .App-nav {
+    width: 200px;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .App-nav button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .App-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .App-form {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .App-3dmodel {
+    flex: 4;
+    max-width: 35%; /* Set the 3D model to take 35% of the width */
+    margin-left: 20px;
+  }
+  
+  .admin-dashboard {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .admin-section {
+    margin-bottom: 20px;
+  }
+  
+  .admin-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-section th, .admin-section td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .admin-section th {
+    background-color: #f2f2f2;
+  }
+  
+  .admin-section tr:hover {
+    background-color: #f5f5f5;
+  }
+  
