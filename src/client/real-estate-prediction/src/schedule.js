@@ -9,7 +9,6 @@ const fetchMetrics = async () => {
   }
 };
 
-// Function to calculate milliseconds until next midnight
 const msUntilMidnight = () => {
   const now = new Date();
   const midnight = new Date(now);
@@ -17,7 +16,6 @@ const msUntilMidnight = () => {
   return midnight - now;
 };
 
-// Function to schedule the task for every day
 const scheduleDailyTask = () => {
   setTimeout(() => {
     fetchMetrics();
@@ -25,5 +23,4 @@ const scheduleDailyTask = () => {
   }, msUntilMidnight());
 };
 
-// Start the scheduler
 scheduleDailyTask();

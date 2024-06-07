@@ -34,7 +34,7 @@
   
   .App-3dmodel {
     flex: 4;
-    max-width: 35%; /* Set the 3D model to take 35% of the width */
+    max-width: 35%; 
     margin-left: 20px;
   }
   

@@ -75,7 +75,7 @@ form button {
   cursor: pointer;
 }
 
-/* General Styles */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -83,7 +83,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Admin Dashboard Styles */
+
 .admin-dashboard {
   display: flex;
   flex-direction: column;

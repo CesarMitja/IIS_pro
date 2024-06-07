@@ -58,7 +58,7 @@ function CanvasArea({ type, setFormData }) {
       if (type === 'rent') {
         setFormData((prev) => ({
           ...prev,
-          LivingArea: Math.round(width * 10) // Multiply to simulate actual area
+          LivingArea: Math.round(width * 10) 
         }));
       } else if (type === 'price') {
         setFormData((prev) => ({
