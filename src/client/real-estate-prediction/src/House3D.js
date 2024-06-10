@@ -3,14 +3,12 @@ import { Canvas, extend, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Extend Three.js objects for use with react-three-fiber
 extend({ PlaneGeometry: THREE.PlaneGeometry });
 
 function HouseModel({ scale }) {
   const group = useRef();
   const { scene } = useGLTF('/models/house-model.glb');
 
-  // Set material to light blue and enable shadows
   scene.traverse((child) => {
     if (child.isMesh) {
       child.material = new THREE.MeshStandardMaterial({ color: 'white' });
