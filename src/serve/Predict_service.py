@@ -1,4 +1,3 @@
-
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import random
 import re
@@ -13,10 +12,10 @@ from mlflow.tracking import MlflowClient
 import mlflow
 import dagshub
 import datetime
-from datetime import datetime
+from datetime import datetime, timezone
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://project-service-latest.onrender.com", "https://project-client-latest.onrender.com"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})  # Za testiranje omogočite vse izvore
 
 CONNECTION_STRING = "mongodb+srv://cesi:Hondacbr125.@ptscluster.gkdlocr.mongodb.net/?retryWrites=true&appName=PTScluster"
 client = pymongo.MongoClient(CONNECTION_STRING)
@@ -177,7 +176,7 @@ def make_price_prediction(input_data):
     return prediction[0]
 
 @app.route('/predict_rent', methods=['POST', 'OPTIONS'])
-@cross_origin(origins=['http://localhost:3000', 'https://project-client-latest.onrender.com'])  # Dovoljeno je iz teh dveh izvorov
+@cross_origin(origins=['http://localhost:3000', 'https://project-client-latest.onrender.com'])  
 def predict_rent():
     if request.method == 'OPTIONS':
         return '', 204  # Preflight zahteva
@@ -194,7 +193,7 @@ def predict_rent():
 
     if set(expected_columns).issubset(set(df.columns)):
         df = df[expected_columns]
-        print("DataFrame after renaming columns and reordering:", df)
+        print("DataFrame after renaming columns in reordering:", df)
         prediction = make_rent_prediction(df)
         df['Prediction'] = prediction
 
@@ -271,7 +270,6 @@ def get_daily_rent_predictions():
 def get_daily_price_predictions():
     predictions = list(price_predictions_collection.find({}, {'_id': 0}))
     return jsonify(predictions)
-from datetime import datetime, timezone
 
 @app.route('/metrics', methods=['GET'])
 def calculate_metrics():
@@ -323,8 +321,6 @@ def calculate_metrics():
         'price_mse': price_mse,
         'price_mae': price_mae
     })
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
