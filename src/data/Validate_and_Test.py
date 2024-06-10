@@ -77,18 +77,17 @@ with open(os.path.join(report_dir, 'validation_results_rent.json'), 'w') as f:
 
 print("Rezultati validacije so bili shranjeni v datoteko.")
 
-# Evidently - Ustvarjanje poročil
-# Preverimo prisotnost potrebnih stolpcev in jih odstranimo, če so prazni
-# required_columns = ['Lot Area', 'Zipcode']
-# for column in required_columns:
-#     if column not in data1.columns or data1[column].isnull().all():
-#         data1.drop(columns=[column], inplace=True)
-#     if column not in data1_ref.columns or data1_ref[column].isnull().all():
-#         data1_ref.drop(columns=[column], inplace=True)
-#     if column not in data2.columns or data2[column].isnull().all():
-#         data2.drop(columns=[column], inplace=True)
-#     if column not in data2_ref.columns or data2_ref[column].isnull().all():
-#         data2_ref.drop(columns=[column], inplace=True)
+
+required_columns = ['Lot Area', 'Zipcode']
+for column in required_columns:
+    if column not in data1.columns or data1[column].isnull().all():
+        data1.drop(columns=[column], inplace=True)
+    if column not in data1_ref.columns or data1_ref[column].isnull().all():
+        data1_ref.drop(columns=[column], inplace=True)
+    if column not in data2.columns or data2[column].isnull().all():
+        data2.drop(columns=[column], inplace=True)
+    if column not in data2_ref.columns or data2_ref[column].isnull().all():
+        data2_ref.drop(columns=[column], inplace=True)
 
 dashboard1 = Dashboard(tabs=[DataDriftTab(), NumTargetDriftTab()])
 dashboard1.calculate(data1_ref, data1)

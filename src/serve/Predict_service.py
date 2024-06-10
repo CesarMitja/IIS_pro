@@ -27,7 +27,6 @@ price_predictions_collection = db.Price
 price_predictions_collection_daily = db.Price_Daily
 rent_predictions_collection_daily = db.Rent_Daily
 
-# DagsHub and MLflow configuration
 dagshub_token = '9afb330391a28d5362f1f842cac05eef42708362'
 dagshub.auth.add_app_token(dagshub_token)
 dagshub.init(repo_name="IIS_pro", repo_owner="CesarMitja", mlflow=True)
@@ -178,6 +177,7 @@ def make_price_prediction(input_data):
     return prediction[0]
 
 @app.route('/predict_rent', methods=['POST'])
+@cross_origin(origins=['http://localhost:3000', 'https://project-service-latest.onrender.com'])  # Dovoljeno je iz teh dveh izvorov
 def predict_rent():
     data = request.json
     print("Received data for rent prediction:", data)
@@ -203,7 +203,7 @@ def predict_rent():
             rounded_result = round(result)
             df['Actual'] = rounded_result
 
-        df['timestamp'] = datetime.datetime.utcnow()
+        df['timestamp'] = datetime.utcnow()
         rent_predictions_collection.insert_one(df.to_dict(orient='records')[0])
         return jsonify({'prediction': prediction})
     else:
@@ -211,6 +211,7 @@ def predict_rent():
         return jsonify({"error": "Missing required columns"}), 400
 
 @app.route('/predict_price', methods=['POST'])
+@cross_origin(origins=['http://localhost:3000', 'https://project-service-latest.onrender.com'])  
 def predict_price():
     data = request.json
     print("Received data for price prediction:", data)
@@ -236,7 +237,7 @@ def predict_price():
             rounded_result = round(result)
             df['Actual'] = rounded_result
 
-        df['timestamp'] = datetime.datetime.utcnow()
+        df['timestamp'] = datetime.utcnow()
         price_predictions_collection.insert_one(df.to_dict(orient='records')[0])
         return jsonify({'prediction': prediction})
     else:
