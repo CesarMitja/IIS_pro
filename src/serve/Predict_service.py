@@ -16,7 +16,7 @@ import datetime
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://project-service-latest.onrender.com", "https://project-client-latest.onrender.com"]}})
 
 CONNECTION_STRING = "mongodb+srv://cesi:Hondacbr125.@ptscluster.gkdlocr.mongodb.net/?retryWrites=true&appName=PTScluster"
 client = pymongo.MongoClient(CONNECTION_STRING)
@@ -176,9 +176,12 @@ def make_price_prediction(input_data):
 
     return prediction[0]
 
-@app.route('/predict_rent', methods=['POST'])
-@cross_origin(origins=['http://localhost:3000', 'https://project-service-latest.onrender.com'])  # Dovoljeno je iz teh dveh izvorov
+@app.route('/predict_rent', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=['http://localhost:3000', 'https://project-client-latest.onrender.com'])  # Dovoljeno je iz teh dveh izvorov
 def predict_rent():
+    if request.method == 'OPTIONS':
+        return '', 204  # Preflight zahteva
+
     data = request.json
     print("Received data for rent prediction:", data)
     df = pd.DataFrame([data])
@@ -210,9 +213,12 @@ def predict_rent():
         print(f"Missing columns: {set(expected_columns) - set(df.columns)}")
         return jsonify({"error": "Missing required columns"}), 400
 
-@app.route('/predict_price', methods=['POST'])
-@cross_origin(origins=['http://localhost:3000', 'https://project-service-latest.onrender.com'])  
+@app.route('/predict_price', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=['http://localhost:3000', 'https://project-client-latest.onrender.com'])  
 def predict_price():
+    if request.method == 'OPTIONS':
+        return '', 204  
+
     data = request.json
     print("Received data for price prediction:", data)
     df = pd.DataFrame([data])
@@ -270,13 +276,13 @@ from datetime import datetime, timezone
 @app.route('/metrics', methods=['GET'])
 def calculate_metrics():
     today = datetime.now(timezone.utc)
-    start_of_day = datetime(today.year, today.month, today.day, tzinfo=timezone.utc)  # Start of the day in UTC
+    start_of_day = datetime(today.year, today.month, today.day, tzinfo=timezone.utc) 
     
     print("Start of today's date:", start_of_day)
     
     try:
-        rent_predictions = list(rent_predictions_collection.find({"timestamp": {"$gte": start_of_day}}))
-        price_predictions = list(price_predictions_collection.find({"timestamp": {"$gte": start_of_day}}))
+        rent_predictions = list(rent_predictions_collection.find({"timestamp": {"$lte": start_of_day}}))
+        price_predictions = list(price_predictions_collection.find({"timestamp": {"$lte": start_of_day}}))
     except Exception as e:
         print("Error fetching data from MongoDB:", e)
         return jsonify({"error": "Failed to fetch data from MongoDB"}), 500
@@ -319,48 +325,6 @@ def calculate_metrics():
     })
 
 
-# @app.route('/metrics', methods=['GET'])
-# @cross_origin()
-# def calculate_metrics():
-#     today = datetime.today()
-#     print(today)
-#     rent_predictions = list(rent_predictions_collection.find({"timestamp": {"$lte": today}}))
-#     price_predictions = list(price_predictions_collection.find({"timestamp": {"$lte": today}}))
-    
-#     if not rent_predictions or not price_predictions:  
-#         return jsonify({"error": "No predictions found for today"}), 404
-
-#     rent_predictions_df = pd.DataFrame(rent_predictions)
-#     price_predictions_df = pd.DataFrame(price_predictions)
-#     df1 = pd.DataFrame()
-#     df2 = pd.DataFrame()
-#     rent_predictions_df['RentPrediction'] = rent_predictions_df['Prediction'].str.split('-').str[1].str.replace('$', '').astype(int)
-#     rent_mse = mean_squared_error(rent_predictions_df['Actual'], rent_predictions_df['RentPrediction'])
-#     df1['Rent_MSE'] = rent_mse
-#     rent_mae = mean_absolute_error(rent_predictions_df['Actual'], rent_predictions_df['RentPrediction'])
-#     df1['Rent_MAE'] = rent_mae
-#     price_predictions_df['PricePrediction'] = price_predictions_df['Prediction'].str.split('-').str[1].str.replace('$', '').astype(int)
-#     price_mse = mean_squared_error(price_predictions_df['Actual'], price_predictions_df['PricePrediction'])
-#     df2['Price_MSE'] = price_mse
-#     price_mae = mean_absolute_error(price_predictions_df['Actual'], price_predictions_df['PricePrediction'])
-#     df2['Price_MAE'] = price_mae
-
-#     with mlflow.start_run(run_name="Daily Metrics"):
-#         mlflow.log_metric("Rent MSE", rent_mse)
-#         mlflow.log_metric("Rent MAE", rent_mae)
-#         mlflow.log_metric("Price MSE", price_mse)
-#         mlflow.log_metric("Price MAE", price_mae)
-#         df1['timestamp'] = datetime.now()
-#         df2['timestamp'] = datetime.now()
-#         rent_predictions_collection_daily.insert_one(df1.to_dict(orient='records')[0])
-#         price_predictions_collection_daily.insert_one(df2.to_dict(orient='records')[0])
-
-#     return jsonify({
-#         'rent_mse': rent_mse,
-#         'rent_mae': rent_mae,
-#         'price_mse': price_mse,
-#         'price_mae': price_mae
-#     })
 
 if __name__ == '__main__':
     app.run(debug=True)
