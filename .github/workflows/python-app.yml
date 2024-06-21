@@ -1,68 +1,7 @@
 name: Python app
 
 on:
-  schedule:
-    - cron: '0 3 * * *'  
   push:
     branches:
       - main 
 
-jobs:
-  scrape:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-  
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-  
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests great_expectations evidently dvc dvc[s3] s3fs
-
-      - name: Configure DVC Remote and pull
-        id: config
-        run: |
-          dvc remote add origin s3://dvc -f
-          dvc remote modify origin endpointurl https://dagshub.com/CesarMitja/IIS_pro.s3
-          dvc remote modify origin --local access_key_id ${{ secrets.DVC_ACCESS_KEY_ID }}
-          dvc remote modify origin --local secret_access_key ${{ secrets.DVC_SECRET_ACCESS_KEY }}
-          dvc remote default origin
-          dvc pull -r origin data/raw/listings.csv
-          dvc pull -r origin data/raw/listings_rent.csv
-
-      - name: Copy data
-        run: |
-          cp data/raw/listings.csv data/raw/listings_ref.csv
-          cp data/raw/listings_rent.csv data/raw/listings_rent_ref.csv
-      
-      # - name: Run scraper
-      #   run: python src/data/fetch.py
-
-      # - name: Run scraper rent
-      #   run: python src/data/fetch_rent.py
-      
-      - name: Run Validation
-        run: python src/data/Validate_and_Test.py
-
-      - name: Add data with DVC and GIT
-        if: success()
-        run: |
-          dvc add data/raw/listings.csv
-          dvc push -r origin data/raw/listings.csv
-          dvc add data/raw/listings_rent.csv
-          dvc push -r origin data/raw/listings_rent.csv
-          dvc add data/raw/listings_ref.csv
-          dvc push -r origin data/raw/listings_ref.csv
-          dvc add data/raw/listings_rent_ref.csv
-          dvc push -r origin data/raw/listings_rent_ref.csv
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Update data" -a || echo "No changes to commit"
-          git push
