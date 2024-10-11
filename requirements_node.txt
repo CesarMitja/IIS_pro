@@ -1,0 +1,1 @@
+V datoteki src/client/src je package.json, ki ima vse poterbne knjižnjice. LP

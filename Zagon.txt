@@ -1,3 +1,16 @@
+ZA ZAGON JE POTREBNO ZAGNATI: Predict_service.py v datoteki src/serve, kar predstavlja naš backend. 
+Za client je pa potrebno zagnati App.js v datoteki src/client/src. 
+Vse potrebne knjižnice so zgoraj navedene, kot tudi v svojih requirements.txt in package.json datotekah za lažjo inštalacijo.
+Deluje na vseh verzijak python 3.9.x. Na novih verzijah se knjižnjice "tepejo";
+Lahko pa tudi spodaj navedene linke odpremo, ampak se render vsake 15 minut ugasne in potem ne dela.
+
+
+Lahko pa tudi prenesmo docker conteinerje, seveda potem nimamo repositorija (kode) pri sebi.
+Docker: 1. cesi212314/project_client
+        2. cesi212314/project_service
+
+
+
 Za lokalno namestitev je potrebno imeti Python za servis ter Node za klienta.
 
 python:
@@ -43,6 +56,7 @@ npm install \
     react-scripts@4.0.3 \
     react-three-fiber@7.0.16 \
     three@0.131.3
+
 
 
 Linki do strani (servis in klient):
